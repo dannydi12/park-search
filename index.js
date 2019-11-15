@@ -31,12 +31,19 @@ function getParks(state, amount) {
 
     const queries = formatParams(params);
     const url = `https://developer.nps.gov/api/v1/parks?${queries}`;
-    console.log(url);
+
     fetch(url)
+    .then(request => {
+        if(!request.ok) {
+            throw Error("Something isn't working...");
+        }
+        return request;
+    })
     .then(park => park.json())
     .then(parkJson => {
         printParks(parkJson);
-    });
+    })
+    .catch(error => alert("Something went wrong..."));
 }
 
 function handleForm() {
